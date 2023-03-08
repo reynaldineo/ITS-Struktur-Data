@@ -1,19 +1,22 @@
 /**
- *Buatlah implementasi fungsi dArray_insertAt dan dArray_removeAt yang berguna untuk memasukkan elemen baru pada posisi yang diinginkan dan menghapus elemen pada posisi yang diinginkan. Prototipe fungsinya seperti berikut.
-
-  *void dArray_insertAt(DynamicArray *darray, unsigned index, int value);
-  *void dArray_removeAt(Dynamic *darray, unsigned index);
-
-  *index merupakan posisi/indeks yang diinginkan.
-  *value adalah nilai baru yang akan dimasukkan.
+ * SOAL : 
+ * Buatlah implementasi fungsi dArray_insertAt dan dArray_removeAt yang berguna untuk memasukkan elemen baru pada posisi yang diinginkan dan menghapus elemen pada posisi yang diinginkan. 
+ * 
+ * Prototipe fungsinya seperti berikut.
+ * void dArray_insertAt(DynamicArray *darray, unsigned index, int value);
+ * void dArray_removeAt(Dynamic *darray, unsigned index);
+ * 
+ * index merupakan posisi/indeks yang diinginkan.
+ * value adalah nilai baru yang akan dimasukkan.
 */
 
 #include <stdio.h>
 #include <stdbool.h>
 
 typedef struct dynamicarr_t {
-  int *_arr;
-  unsigned _size, _capacity;
+    int *_arr;
+    unsigned _size, _capacity; 
+    // berisi array (variabel _arr), kemudian informasi ukuran (_size) dan kapasitas array (_capacity)
 } DynamicArray;
 
 // Definisi fungsi
@@ -55,6 +58,13 @@ void dArray_popBack(DynamicArray *darray) {
     if (!dArray_isEmpty(darray)) darray->_size--; // kalau mau hapus, yaudah tinggal di --
     else return; // kalau kosong/ga ada isi, ya return mau ngapain lagi wkwkwk
 }
+
+// menghapus data terdepan/paling depan
+// void dArray_popFront (DynamicArray *darray) {
+//     if (!dArray_isEmpty(darray)) { 
+//         DynamicArray *temp = 
+//     }
+// }
 
 // mendapatkan data terakhir/paling belakang.
 int dArray_back(DynamicArray *darray) {
@@ -99,22 +109,49 @@ int dArray_getAt(DynamicArray *darray, unsigned index)
 
 void dArray_insertAt(DynamicArray *darray, unsigned index)
 {
+    if(!dArray_isEmpty(darray)) {
+        // kasus apabila posisi melebihi batas
+        if (index >= darray->_size) {
+            
+        }
+        
 
+
+    }
 }
 
 void dArray_removeAt(DynamicArray *darray, unsigned index)
 {
-  if (!dArray_isEmpty(darray)) {
+    if (!dArray_isEmpty(darray)) {
+        // kasus apabila posisinya melebihi batas / palingakhir
+        if (index >= darray->_size) {
+            dArray_popBack(darray); // tinggal pop back
+            return;
+        }
+        // kasus apabila posisi di depan
+        else if (index == 0 || index < 0) {
+            
+        }
 
-    if (index >= darray->_size) {
-      dArray_popBack(darray);
-      return;
+
+
     }
-    else if (index == 0 ) {
+}
 
-    }
+int main () {
+    // Buat objek DynamicArray
+    DynamicArray myArray;
 
+    // PENTING! Jangan lupa diinisialisasi
+    dArray_init(&myArray);
 
+    // Operasi-operasi
+    // myArray => [11, 14, 17, 23]
+    dArray_pushBack(&myArray, 11);
+    dArray_pushBack(&myArray, 14);
+    dArray_pushBack(&myArray, 17);
+    dArray_pushBack(&myArray, 23);
 
-  }
+    // isi myArray => [11, 14, 17]
+    dArray_popBack(&myArray);
 }
