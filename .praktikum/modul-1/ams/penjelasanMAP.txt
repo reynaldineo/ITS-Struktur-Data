@@ -1,0 +1,9 @@
+jelaskan skorById.find(id) != skorById.end()
+fungsi .find dan .end
+>>
+Pada baris kode skorById.find(id) != skorById.end(), fungsi find digunakan untuk mencari apakah ada key id di dalam map skorById. Fungsi ini akan mengembalikan iterator yang menunjuk pada pasangan key-value pada map jika key id ditemukan, atau akan mengembalikan iterator yang menunjuk pada akhir map (end iterator) jika key id tidak ditemukan.
+
+Sementara itu, fungsi end digunakan untuk mendapatkan iterator yang menunjuk pada akhir map, yaitu setelah elemen terakhir pada map. Dalam kasus ini, hasil dari skorById.end() akan menghasilkan iterator yang menunjuk pada elemen setelah elemen terakhir pada map skorById.
+
+Dalam kode skorById.find(id) != skorById.end(), kita membandingkan hasil dari skorById.find(id) (yaitu iterator yang menunjuk pada pasangan key-value pada map) dengan skorById.end() (yaitu iterator yang menunjuk pada akhir map). Jika hasil dari skorById.find(id) tidak sama dengan skorById.end(), maka key id ditemukan di dalam map skorById.
+
