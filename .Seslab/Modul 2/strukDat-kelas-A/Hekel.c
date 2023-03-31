@@ -182,10 +182,10 @@ void bst_postorder(BST *bst) {
 
 int main()
 {
-    BST maling_online;
+    BST maling_online; // hekel
     bst_init(&maling_online);
 
-    int maling_online_putar;
+    int maling_online_putar; // jmlh inputan N
     scanf("%d", &maling_online_putar);
 
     //deklarasi nilai dan jumlah level.
