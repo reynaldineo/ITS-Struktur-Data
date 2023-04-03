@@ -44,13 +44,13 @@ void bst_insert(BST *bst, char *value){
     bst->_size++;
 }
 
-void searchChild (BSTNode *root, char *ibu)
+void searchChild (BSTNode *root, char *NamaAnggota)
 {
     if (root==NULL) {
         return;
     }
     
-    if(strcmp(root->key,ibu)==0) {    
+    if(strcmp(root->key,NamaAnggota)==0) {    
         if(root->left == NULL ){
             if( root->right != NULL)
                 printf("- %s\n",  root->right->key);
@@ -69,27 +69,27 @@ void searchChild (BSTNode *root, char *ibu)
         return;
     }
 
-    else if(strcmp(root->key,ibu) == 1){
-        searchChild (root->right, ibu);
+    else if(strcmp(root->key,NamaAnggota) > 0){
+        searchChild (root->right, NamaAnggota);
     }
-    else searchChild (root->left, ibu);
+    else searchChild (root->left, NamaAnggota);
 }
 
-void searchParents(BSTNode *root, char *anak){
+void searchParents(BSTNode *root, char *NamaAnggota){
     if (root==NULL) {
         return;
     }
     BSTNode *prevNode = root;
     while (root) { 
-        if(strcmp(root->key, anak) == 0) {
-             break;
+        if(strcmp(root->key, NamaAnggota) == 0) {
+            break;
         }
         prevNode = root;
 
-        if(strcmp(root->key,anak) > 0) {
+        if(strcmp(root->key,NamaAnggota) > 0) {
             root = root->right;
         }
-        else if(strcmp(root->key,anak) < 0) {
+        else if(strcmp(root->key,NamaAnggota) < 0) {
             root = root->left;
         }
     }
@@ -106,20 +106,22 @@ int main(){
     scanf("%d %d", &n, &tc);
 
     while(n--){
-        scanf("%s",opt2);
-        bst_insert(&set, opt2);
+        char nama[10000];
+        scanf("%s", nama);
+        bst_insert(&set, nama);
     }
 
     while(tc--){
-        scanf("%s %s" ,opt1 ,opt2);
-        if(!strcmp(opt1, "Anak")) {
-            searchChild(set._root, opt2);
+        char kode[10000], namaAnggota[10000];
+        scanf("%s %s" ,kode ,namaAnggota);
+        if(!strcmp(kode, "Anak")) {
+            searchChild(set._root, namaAnggota);
         }
-        else if(!strcmp(opt1, "Ibu")) {
-            if(!strcmp(set._root->key, opt2)) {
+        else if(!strcmp(kode, "Ibu")) {
+            if(!strcmp(set._root->key, namaAnggota)) {
                 printf("Aku Adalah Pemimpin Keluarga Ini! HAHAHA\n");
             }
-            else searchParents(set._root, opt2);
+            else searchParents(set._root, namaAnggota);
         }         
     }
     return 0;

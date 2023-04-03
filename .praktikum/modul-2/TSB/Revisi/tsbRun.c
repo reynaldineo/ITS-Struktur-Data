@@ -69,7 +69,7 @@ void searchChild (BSTNode *root, char *ibu)
         return;
     }
 
-    else if(strcmp(root->key,ibu) == 1){
+    else if(strcmp(root->key,ibu) > 0){
         searchChild (root->right, ibu);
     }
     else searchChild (root->left, ibu);
