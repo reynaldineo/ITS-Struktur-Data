@@ -9,11 +9,12 @@
  * Implementasi untuk Bahasa C
  */
 
+#include <iostream>
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 // #include <stdio.h>
-#include <iostream>
+#include <algorithm> //untuk min
 
 using namespace std;
 
@@ -24,7 +25,7 @@ using namespace std;
 
 typedef struct bstnode_t {
     int key;
-    struct bstnode_t 
+    struct bstnode_t \
         *left, *right;
 } BSTNode;
 
@@ -40,6 +41,8 @@ typedef struct bst_t {
  * Note that you better never access these functions, 
  * unless you need to modify or you know how these functions work.
  */
+BST utama;
+BST leaf;
 
 BSTNode* __bst__createNode(int value) {
     BSTNode *newNode = (BSTNode*) malloc(sizeof(BSTNode));
@@ -107,29 +110,6 @@ BSTNode* __bst__remove(BSTNode *root, int value) {
     return root;
 }
 
-void __bst__inorder(BSTNode *root) {
-    if (root) {
-        __bst__inorder(root->left);
-        printf("%d ", root->key);
-        __bst__inorder(root->right);
-    }
-}
-
-void __bst__postorder(BSTNode *root) {
-    if (root) {
-        __bst__postorder(root->left);
-        __bst__postorder(root->right);
-        printf("%d ", root->key);
-    }
-}
-
-void __bst__preorder(BSTNode *root) {
-    if (root) {
-        printf("%d ", root->key);
-        __bst__preorder(root->left);
-        __bst__preorder(root->right);
-    }
-}
 
 /**
  * PRIMARY FUNCTION
@@ -139,7 +119,7 @@ void __bst__preorder(BSTNode *root) {
 
 void bst_init(BST *bst) {
     bst->_root = NULL;
-    bst->_size = 0u;
+    bst->_size = 0;
 }
 
 bool bst_isEmpty(BST *bst) {
@@ -178,38 +158,122 @@ void bst_remove(BST *bst, int value) {
  * - Preorder
  */
 
-void bst_inorder(BST *bst) {
-    __bst__inorder(bst->_root);
+int flag=0, kombinasiMin, kombinasiMax;
+
+void __bst__inorder(BSTNode *root, int xHasil) {
+    if (root) {
+        if(!flag)
+            __bst__inorder(root->left, xHasil);
+
+        if(!flag){
+            // printf("%d ", root->key);
+            int cekTemp = xHasil - root->key;
+            if(cekTemp != root->key){
+                if(bst_find(&utama, cekTemp)){
+                    kombinasiMin = min(root->key, cekTemp);
+                    kombinasiMax = xHasil - kombinasiMin;
+                    bst_remove(&utama, root->key);
+                    bst_remove(&utama, cekTemp);
+                    bst_remove(&leaf, root->key);
+                    bst_remove(&leaf, cekTemp);
+                    flag=1;
+                    return;
+                }
+            }
+        }
+        if(!flag)
+        __bst__inorder(root->right, xHasil);
+    }
 }
 
-void bst_postorder(BST *bst) {
-    __bst__postorder(bst->_root);
+void bst_inorder(BST *bst, int x) {
+    __bst__inorder(bst->_root, x);
 }
 
-void bst_preorder(BST *bst) {
-    __bst__preorder(bst->_root);
+void __findLeaf_Nodes(BSTNode *root) {
+    if (root != NULL) {
+        if (root->left == NULL && root->right == NULL) {
+            // printf("%d ", root->key);
+            // masukin ke bst leaf
+            bst_insert(&leaf, root->key);
+        }
+        __findLeaf_Nodes(root->left);
+        __findLeaf_Nodes(root->right);
+    }
 }
- 
+
+void findLeaf(BST *bst){
+    __findLeaf_Nodes(bst->_root);
+}
+
+void __bst__inorder_biasa(BSTNode *root) {
+    if (root) {
+        __bst__inorder_biasa(root->left);
+        printf("%d", root->key);
+        if(root->right != NULL)
+            printf(", ");
+        __bst__inorder_biasa(root->right);
+    }
+}
+
+void bst_inorder_biasa(BST *bst) {
+    __bst__inorder_biasa(bst->_root);
+}
+
 int main()
 {
-    BST set;
-    bst_init(&set);
+    bst_init(&utama);
+    bst_init(&leaf);
 
-    int aAwal, bAkhir;
-    cin >> aAwal >> bAkhir;
+    int n, q;
+    cin >> n;
+    while(n--){
+        int a;
+        cin >> a;
+        bst_insert(&utama, a);
+    }
+    // nyari leaf
+    findLeaf(&utama);
 
-    int nJUmlah;
-    cin >> nJUmlah;
-    while(nJUmlah--){
-        int nomerRuangan, staminaRuangan;
-        cin >> nomerRuangan >> staminaRuangan;
-        bst_insert(&set, nomerRuangan); // masukin stamina jg
-    } // semua data telah di input
+    cin >> q;
+    while(q--){
+        int x; // angka jumlah yg ingin di hasilkan
+        cin >> x;
+        flag = 0;
+        bst_inorder(&utama, x);
+        if(flag == 1){ // kalau berhasil dpt kombinasi
+            printf("Aceng mengambil: %d dan %d\n", kombinasiMin, kombinasiMax);
+        }
+        else if(flag == 0){ // kalau ga dpt kombinasi
+            // print leaf
+            printf("[");
+            if(!bst_isEmpty(&leaf)){
+                bst_inorder_biasa(&leaf);
+            }
+            printf("]\n");
+        }
+
+    }
 
     /**
-     * Mulai operasi
-     * 
+     * YG SALAH/MASALAH
+     * ngeprintnya berhenti kalau masuk aceng mengambil
+     * leafnya ga mau ke hapus
+     * gimana cara kasih koma di print leaf
     */
+
+    /**
+     * Langkah yg kurang
+     * - cari leaf, masukin ke bst baru
+     * - inOrder, ngecek kombinasi
+     *  kalau ada:
+     *      print aceng mengambil
+     *      hapus data dari ke 2 bst (utama, leaf)
+     *  kalau ga ada:
+     *      print leaf
+    */
+
+
     
     return 0;
 }
