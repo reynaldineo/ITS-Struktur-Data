@@ -11,7 +11,6 @@
 
 #include <iostream>
 #include <string.h>
-#include <stdio.h>
 
 using namespace std;
 
@@ -180,7 +179,7 @@ void bst_remove(BST *bst, string value) {
  * - Postorder
  * - Preorder
  */
-
+BST set;
 void bst_inorder(BST *bst) {
     __bst__inorder(bst->_root);
 }
@@ -217,9 +216,21 @@ int searchChild(BSTNode *Root, string NamaAnggota){
     return 0;
 }
 
+void searchBapak(BSTNode *root, string NamaAnggota){
+    while(root){
+        BSTNode *temp = __bst__search(set._root, NamaAnggota);
+        if(temp->parent == NULL){
+                cout << "Aku Adalah Pemimpin Keluarga Ini! HAHAHA" << endl;//pemimpin keluarga
+            }
+            else{
+                cout << temp->parent->key << endl;
+            }
+    }
+}
+
 int main()
 {
-    BST set; // database
+    // BST set; // database
     bst_init(&set);
 
     int n, tc;
@@ -244,7 +255,7 @@ int main()
             // searchParent(set._root, namaAnggota);
             BSTNode* temp = __bst__search(set._root, namaAnggota);
             if(temp->parent == NULL){
-                cout << "Aku Adalah Pemimpin Keluarga Ini! HAHAHA" << endl;
+                cout << "Aku Adalah Pemimpin Keluarga Ini! HAHAHA" << endl;//pemimpin keluarga
             }
             else{
                 cout << temp->parent->key << endl;

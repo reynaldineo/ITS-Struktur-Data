@@ -1,14 +1,3 @@
-/**
- * Implementasi Binary Search Tree (ADT: BST)
- * yakni BST yang tidak menyimpan key duplikat (unique key)
- * 
- * Dibuat dan ditulis oleh Bayu Laksana
- * -- tanggal 29 Februrari 2019
- * Struktur Data 2020
- * 
- * Implementasi untuk Bahasa C
- */
-
 #include <iostream>
 #include <string.h>
 #include <stdio.h>
@@ -107,33 +96,6 @@ BSTNode* __bst__remove(BSTNode *root, string value) {
     return root;
 }
 
-void __bst__inorder(BSTNode *root) {
-    if (root) {
-        __bst__inorder(root->left);
-        // printf("%c ", root->key);
-        cout << root->key << " ";
-        __bst__inorder(root->right);
-    }
-}
-
-void __bst__postorder(BSTNode *root) {
-    if (root) {
-        __bst__postorder(root->left);
-        __bst__postorder(root->right);
-        // printf("%s ", root->key);
-        cout << root->key << " ";
-    }
-}
-
-void __bst__preorder(BSTNode *root) {
-    if (root) {
-        // printf("%s ", root->key);
-        cout << root->key << " ";
-        __bst__preorder(root->left);
-        __bst__preorder(root->right);
-    }
-}
-
 /**
  * PRIMARY FUNCTION
  * ---------------------------
@@ -174,27 +136,8 @@ void bst_remove(BST *bst, string value) {
     }
 }
 
-/**
- * Binary search tree traversal
- * - Inorder
- * - Postorder
- * - Preorder
- */
-
-void bst_inorder(BST *bst) {
-    __bst__inorder(bst->_root);
-}
-
-void bst_postorder(BST *bst) {
-    __bst__postorder(bst->_root);
-}
-
-void bst_preorder(BST *bst) {
-    __bst__preorder(bst->_root);
-}
-
 // Function sendiri
-int searchChild(BSTNode *Root, string NamaAnggota){
+void searchChild(BSTNode *Root, string NamaAnggota){
     BSTNode *temp = __bst__search(Root, NamaAnggota);
 
     // cek anak kiri
@@ -214,12 +157,11 @@ int searchChild(BSTNode *Root, string NamaAnggota){
     else { // kalau kanan kiri ga kosong
         cout << temp->right->key << " " << temp->left->key << endl;
     }
-    return 0;
 }
 
 int main()
 {
-    BST set; // database
+    BST set; 
     bst_init(&set);
 
     int n, tc;
@@ -241,8 +183,7 @@ int main()
         }
 
         else if (kode == "Ibu"){
-            // searchParent(set._root, namaAnggota);
-            BSTNode* temp = __bst__search(set._root, namaAnggota);
+            BSTNode* temp = __bst__search(set._root, namaAnggota); //yakali root punya parent
             if(temp->parent == NULL){
                 cout << "Aku Adalah Pemimpin Keluarga Ini! HAHAHA" << endl;
             }
@@ -250,9 +191,6 @@ int main()
                 cout << temp->parent->key << endl;
             }
         }
-
     }
-
-
     return 0;
 }
